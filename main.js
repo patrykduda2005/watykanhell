@@ -1,3 +1,4 @@
+import Room1 from './room1.js';
 var config = {
     type: Phaser.AUTO,
     scale: {
@@ -9,8 +10,8 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: {},
-            debug: false
+            gravity: { y:0},
+            debug: true
         }
     },
     scene: [ Room1 ]
