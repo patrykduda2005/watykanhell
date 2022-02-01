@@ -1,3 +1,4 @@
+//Potrzebne aby wiedziało czym jest scena Room1
 import Room1 from './room1.js';
 var config = {
     type: Phaser.AUTO,
