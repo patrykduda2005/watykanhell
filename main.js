@@ -2,7 +2,7 @@
 import Room1 from './room1.js';
 var config = {
     type: Phaser.AUTO,
-    pixelArt: false,
+    pixelArt: true,
     scale: {
     	mode: Phaser.Scale.FIT,
     	width: 800,
@@ -13,7 +13,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y:0},
-            debug: false
+            debug: true
         }
     },
     scene: [ Room1 ]
