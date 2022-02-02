@@ -14,10 +14,14 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		
 
 		this.fire(direction, speed);
+
+		setInterval(this.update, 17, this);
 	}
 
-	update() {
-
+	update(bullet) {
+		if (bullet.body.velocity.x == 0 && bullet.body.velocity.y == 0) {
+			bullet.destroy();
+		}
 	}
 
 	fire(direction, speed = 100) {

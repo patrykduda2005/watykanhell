@@ -22,14 +22,20 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.cursors = scene.input.keyboard.createCursorKeys();
 
 		this.playerHealth = 20;
-		this.attackSpeed = 1;
+		this.attackCD = 1000;
+		this.ableToAttack = true;
 		this.attackDamage = 1;
-		new Bullet(scene, x, y, 'dude', 'left');
+		this.scene = scene;
+		
 	}
 
 	//Odpala się w kółko
 	update() {
+
 		this.run();
+		if (this.ableToAttack == true) {
+			this.fire(this);
+		}
 	}
 
 	run() {
@@ -75,6 +81,34 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.body.velocity.x > -(maxVel/breaking) && this.body.velocity.x < maxVel/breaking) this.body.velocity.x = 0;
 		if (this.body.velocity.y > -(maxVel/breaking) && this.body.velocity.y < maxVel/breaking) this.body.velocity.y = 0;
 
+	}
+
+	fire(player) {
+		if (this.cursors.up.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.body.x, this.body.y, 'dude', 'up', 300);
+			setTimeout(function() {
+				player.ableToAttack = true;
+			}, this.attackCD);
+		} else if (this.cursors.down.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.body.x, this.body.y, 'dude', 'down', 300);
+			setTimeout(function() {
+				player.ableToAttack = true;
+			}, this.attackCD);
+		} else if (this.cursors.left.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.body.x, this.body.y, 'dude', 'left', 300);
+			setTimeout(function() {
+				player.ableToAttack = true;
+			}, this.attackCD);
+		} else if (this.cursors.right.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.body.x, this.body.y, 'dude', 'right', 300);
+			setTimeout(function() {
+				player.ableToAttack = true;
+			}, this.attackCD);
+		}
 	}
 
 }
