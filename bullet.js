@@ -15,7 +15,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 		this.fire(direction, speed);
 
-		setInterval(this.update, 17, this);
+		setInterval(this.update, 1000/60, this);
 	}
 
 	update(bullet) {

@@ -19,7 +19,6 @@ export default class Room1 extends Phaser.Scene {
 	}
 
 	update() {
-		//Potrzebne aby funkcja update w klasie z player.js dzialala
-		this.player.update();
+		
 	}
 }
