@@ -2,7 +2,7 @@
 import Room1 from './room1.js';
 var config = {
     type: Phaser.AUTO,
-    pixelArt: true,
+    pixelArt: false,
     scale: {
     	mode: Phaser.Scale.FIT,
     	width: 800,
