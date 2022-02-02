@@ -90,25 +90,25 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	fire() {
 		if (this.cursors.up.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', 'up', 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y - 10, 300);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.down.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', 'down', 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y + 10, 300);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.left.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', 'left', 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x-10, this.y, 300);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.right.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', 'right', 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x+10, this.y, 300);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);

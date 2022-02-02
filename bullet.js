@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
-	constructor(scene, x, y, key = 'dude', direction = 'up', speed = 100) {
+	constructor(scene, x, y, key = 'dude', dirX, dirY, speed = 100, dis=400) {
 		super(scene, x, y, key);
 
 		//dodanie playera do sceny
@@ -11,32 +11,20 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		this.setCollideWorldBounds(true);
 		
 		this.damage = 1;
-		
-
-		this.fire(direction, speed);
+		this.dis = dis;
+		this.oriX = x;
+		this.oriY = y;
+		scene.physics.moveTo(this, dirX, dirY, speed);
 
 		setInterval(this.update, 1000/60, this);
 	}
 
 	update(bullet) {
-		if (bullet.body.velocity.x == 0 && bullet.body.velocity.y == 0) {
-			bullet.destroy();
-		}
+		bullet.distanceLimit();
 	}
 
-	fire(direction, speed = 100) {
-		switch (direction) {
-			case 'up':
-				this.setVelocityY(-speed);
-				break;
-			case 'down':
-				this.setVelocityY(speed);
-				break;
-			case 'left':
-				this.setVelocityX(-speed);
-				break;
-			case 'right':
-				this.setVelocityX(speed);
-		}
+	distanceLimit() {
+		if(Phaser.Math.Distance.Between(this.oriX, this.oriY, this.x, this.y) > this.dis || this.body.embedded) this.destroy();
 	}
+
 }
