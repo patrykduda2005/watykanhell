@@ -1,4 +1,6 @@
+import Bullet from './bullet.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+	
 	constructor(scene, x, y, key = 'dude') {
 		super(scene, x, y, key);
 
@@ -18,6 +20,11 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			'D': Phaser.Input.Keyboard.KeyCodes.D
 		});
 		this.cursors = scene.input.keyboard.createCursorKeys();
+
+		this.playerHealth = 20;
+		this.attackSpeed = 1;
+		this.attackDamage = 1;
+		new Bullet(scene, x, y, 'dude', 'left');
 	}
 
 	//Odpala się w kółko
