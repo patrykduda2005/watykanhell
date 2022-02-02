@@ -1,4 +1,6 @@
+import Bullet from './bullet.js';
 export default class Player extends Phaser.Physics.Arcade.Sprite {
+	
 	constructor(scene, x, y, key = 'dude') {
 		super(scene, x, y, key);
 
@@ -18,11 +20,26 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			'D': Phaser.Input.Keyboard.KeyCodes.D
 		});
 		this.cursors = scene.input.keyboard.createCursorKeys();
+
+		//staty gracza
+		this.playerHealth = 20;
+		this.attackCD = 1000;
+		this.ableToAttack = true;
+		this.attackDamage = 1;
+		this.scene = scene;
+
+		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie player)
+		setInterval(this.update, 1000/60, this);
+		
 	}
 
 	//Odpala się w kółko
-	update() {
-		this.run();
+	update(player) {
+
+		player.run();
+		if (player.ableToAttack == true) {
+			player.fire();
+		}
 	}
 
 	run() {
@@ -68,6 +85,34 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		if (this.body.velocity.x > -(maxVel/breaking) && this.body.velocity.x < maxVel/breaking) this.body.velocity.x = 0;
 		if (this.body.velocity.y > -(maxVel/breaking) && this.body.velocity.y < maxVel/breaking) this.body.velocity.y = 0;
 
+	}
+
+	fire() {
+		if (this.cursors.up.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y - 10, 300);
+			setTimeout(function(player) {
+				player.ableToAttack = true;
+			}, this.attackCD, this);
+		} else if (this.cursors.down.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y + 10, 300);
+			setTimeout(function(player) {
+				player.ableToAttack = true;
+			}, this.attackCD, this);
+		} else if (this.cursors.left.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x-10, this.y, 300);
+			setTimeout(function(player) {
+				player.ableToAttack = true;
+			}, this.attackCD, this);
+		} else if (this.cursors.right.isDown) {
+			this.ableToAttack = false;
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x+10, this.y, 300);
+			setTimeout(function(player) {
+				player.ableToAttack = true;
+			}, this.attackCD, this);
+		}
 	}
 
 }
