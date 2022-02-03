@@ -16,7 +16,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		this.oriY = y;
 		scene.physics.moveTo(this, dirX, dirY, speed);
 
-		setInterval(this.update, 1000/60, this);
+		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
 	}
 
 	update(bullet) {
@@ -24,7 +24,10 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	distanceLimit() {
-		if(Phaser.Math.Distance.Between(this.oriX, this.oriY, this.x, this.y) > this.dis || this.body.embedded) this.destroy();
+		if (this.body.embedded || Phaser.Math.Distance.Between(this.oriX, this.oriY, this.x, this.y) > this.dis) {
+			clearInterval(this.updateInterval);
+			this.destroy();
+		}
 	}
 
 }
