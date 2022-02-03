@@ -29,7 +29,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie player)
-		setInterval(this.update, 1000/60, this);
+		setInterval(this.update, 1000/scene.physics.world.fps, this);
 		
 	}
 
