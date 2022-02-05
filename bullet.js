@@ -1,5 +1,5 @@
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
-	constructor(scene, x, y, key = 'dude', dirX, dirY, speed = 100, dis=400) {
+	constructor(scene, x, y, key = 'dude', dirX, dirY, speed = 100, dis=400, host, damage = 1) {
 		super(scene, x, y, key);
 
 		//dodanie bulleta do sceny
@@ -9,6 +9,9 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		//Żeby nie wypadł poza świat
 		scene.physics.world.setBounds(0,0,800,600);
 		this.setCollideWorldBounds(true);
+
+		
+		
 
 		//Informacje potrzebne do strzału bulletu
 		this.fireInfo = {
@@ -21,11 +24,19 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		}
 		
 		//staty bulleta
-		this.damage = 1;
+		this.bulletDamage = damage;
 		this.scene = scene;
+		this.host = host;
+		
+		//detect gdy dotknie
+		this.scene.physics.overlap(this, this.scene.isBulletable, this.damage, scene.isBulletable != this.host, this);
+		
 
 		//Wystrzeliwuje bullet
 		this.fire();
+
+		
+		
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie bullet)
 		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
@@ -34,6 +45,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	update(bullet) {
 		//Usuwa bullet gdy ten nie trafi
 		bullet.missDestroyer();
+
 	}
 
 	fire() {
@@ -47,6 +59,12 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		}
 	}
 
+	damage(bullet, victim) {
+		victim.health -= 1;
+		clearInterval(bullet.updateInterval);
+		bullet.destroy();
+	
+	}
 	
 
 }

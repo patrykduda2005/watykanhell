@@ -13,8 +13,18 @@ export default class Room1 extends Phaser.Scene {
 	create() {
 		this.add.image(400, 300, 'bilean');
 
+		
+
 		//Stworzenie gracza na podstawie klasy z player.js
 		this.player = new Player(this, 400, 300);
+
+		this.isBulletable = this.physics.add.group();
+		this.isBulletable.add(this.player);
+
+		this.zilean = this.physics.add.image(100, 100, 'bilean').setScale(0.2);
+		this.zilean.health = 20;
+
+		this.isBulletable.add(this.zilean);
 	}
 
 	update() {
