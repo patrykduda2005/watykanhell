@@ -29,7 +29,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		this.host = host;
 		
 		//detect gdy dotknie
-		this.scene.physics.overlap(this, this.scene.isBulletable, this.damage, scene.isBulletable != this.host, this);
+		this.scene.physics.overlap(this, this.scene.isBulletable, this.damage, null, this);
 		
 
 		//Wystrzeliwuje bullet
@@ -60,6 +60,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	damage(bullet, victim) {
+		if (victim == bullet.host) return;
 		victim.health -= 1;
 		clearInterval(bullet.updateInterval);
 		bullet.destroy();
