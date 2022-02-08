@@ -42,6 +42,8 @@ export default class Room1 extends Phaser.Scene {
 
 
 
+		
+
 		//Stworzenie gracza na podstawie klasy z player.js
 		this.player = new Player(this, 250, 150);
 	}

@@ -22,24 +22,30 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.cursors = scene.input.keyboard.createCursorKeys();
 
 		//staty gracza
-		this.playerHealth = 20;
+		this.health = 20;
 		this.attackCD = 1000;
 		this.ableToAttack = true;
 		this.attackDamage = 1;
 		this.scene = scene;
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie player)
-		setInterval(this.update, 1000/scene.physics.world.fps, this);
+		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
 		
 	}
 
 	//Odpala się w kółko
 	update(player) {
-
+		
+		//movement playera
 		player.run();
+
+		//handlowanie cooldownu aa
 		if (player.ableToAttack == true) {
 			player.fire();
 		}
+
+		//jesli player ma 0 lub mniej to niech umrze
+		if (player.health <= 0) player.death();
 	}
 
 	run() {
@@ -90,29 +96,35 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	fire() {
 		if (this.cursors.up.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y - 10, 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y - 10, 300, 400, this, this.attackDamage);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.down.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y + 10, 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y + 10, 300, 400, this, this.attackDamage);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.left.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x-10, this.y, 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x-10, this.y, 300, 400, this, this.attackDamage);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.right.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x+10, this.y, 300);
+			new Bullet(this.scene, this.x, this.y, 'dude', this.x+10, this.y, 300, 400, this, this.attackDamage);
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		}
+	}
+
+	death() {
+		//zniszczenie playera
+		clearInterval(this.updateInterval);
+		this.destroy();
 	}
 
 }
