@@ -28,14 +28,14 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 		this.host = host;
 		
-		//detect gdy dotknie
-		this.scene.physics.overlap(this, this.scene.isBulletable, this.damage, null, this);
 		
+		
+		//detect gdy dotknie
+		//this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
 
-		//Wystrzeliwuje bullet
+		//Wystrzeliwuje bullet (aktualnie jest blad poniewaz bullet moze nie istniec w tym momencie a probuje dac mu velocity)
 		this.fire();
 
-		
 		
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie bullet)
@@ -54,14 +54,20 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 	missDestroyer() {
 		if (this.body.embedded || Phaser.Math.Distance.Between(this.fireInfo.originX, this.fireInfo.originY, this.x, this.y) > this.fireInfo.distance) {
+			//zniszczenie bulleta
 			clearInterval(this.updateInterval);
 			this.destroy();
 		}
 	}
 
 	damage(bullet, victim) {
+		//Zeby nie trafic obiekt ktory to wysyla
 		if (victim == bullet.host) return;
-		victim.health -= 1;
+
+		//Redukcja zycia
+		victim.health -= bullet.bulletDamage;
+
+		//zniszczenie bulleta
 		clearInterval(bullet.updateInterval);
 		bullet.destroy();
 	
