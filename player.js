@@ -9,7 +9,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		scene.add.existing(this);
 
 		//Żeby nie wypadł poza świat
-		scene.physics.world.setBounds(0,0,800,600);
+		scene.physics.world.setBounds(0,0,820,580);
 		this.setCollideWorldBounds(true);
 		
 		//Wprowadzenie przycisków
