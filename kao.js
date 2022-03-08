@@ -21,11 +21,25 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.jump();
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie Kao)
-		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+
+		this.updateInterval = scene.time.addEvent({
+			delay: 1000/scene.physics.world.fps,
+			loop: true,
+			callback: this.update,
+			callbackScope: this
+		});
+
+		this.jumpInterval = scene.time.addEvent({
+			delay: 3000,
+			loop: true,
+			callback: this.jump,
+			callbackScope: this
+		});
 	}
 
-	update(kao) {
-		kao.stop();
+	update() {
+		this.stop();
 	}
 
 	jump() {
