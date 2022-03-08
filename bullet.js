@@ -38,13 +38,20 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 		
 
-		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie bullet)
-		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+		//uruchomienie update
+		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+
+		this.updateInterval = scene.time.addEvent({
+			delay: 1000/scene.physics.world.fps,
+			loop: true,
+			callback: this.update,
+			callbackScope: this
+		});
 	}
 
-	update(bullet) {
+	update() {
 		//Usuwa bullet gdy ten nie trafi
-		bullet.missDestroyer();
+		this.missDestroyer();
 
 	}
 
@@ -55,7 +62,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 	missDestroyer() {
 		if (this.body.embedded || Phaser.Math.Distance.Between(this.fireInfo.originX, this.fireInfo.originY, this.x, this.y) > this.fireInfo.distance) {
 			//zniszczenie bulleta
-			clearInterval(this.updateInterval);
+			this.updateInterval.destroy();
 			this.destroy();
 		}
 	}
@@ -68,7 +75,7 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 		victim.health -= bullet.bulletDamage;
 
 		//zniszczenie bulleta
-		clearInterval(bullet.updateInterval);
+		bullet.updateInterval.destroy();
 		bullet.destroy();
 	
 	}

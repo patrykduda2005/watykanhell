@@ -9,7 +9,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		scene.add.existing(this);
 
 		//Żeby nie wypadł poza świat
-		scene.physics.world.setBounds(0,0,800,600);
+		scene.physics.world.setBounds(0,0,820,580);
 		this.setCollideWorldBounds(true);
 		
 		//Wprowadzenie przycisków
@@ -29,23 +29,31 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie player)
-		this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
+
+
+		this.updateInterval = scene.time.addEvent({
+			delay: 1000/scene.physics.world.fps,
+			loop: true,
+			callback: this.update,
+			callbackScope: this
+		});
 		
 	}
 
 	//Odpala się w kółko
-	update(player) {
+	update() {
 		
 		//movement playera
-		player.run();
+		this.run();
 
 		//handlowanie cooldownu aa
-		if (player.ableToAttack == true) {
-			player.fire();
+		if (this.ableToAttack == true) {
+			this.fire();
 		}
 
 		//jesli player ma 0 lub mniej to niech umrze
-		if (player.health <= 0) player.death();
+		if (this.health <= 0) this.death();
 	}
 
 	run() {
@@ -123,8 +131,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 
 	death() {
 		//zniszczenie playera
-		clearInterval(this.updateInterval);
-		this.destroy();
+		this.updateInterval.destroy();
+		this.removeInteractive();
+		//this.destroy();
 	}
 
 }
