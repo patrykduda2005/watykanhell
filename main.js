@@ -9,8 +9,8 @@ var config = {
     pixelArt: true,
     scale: {
     	mode: Phaser.Scale.FIT,
-    	width: 820,
-    	height: 580,
+    	width: 720,
+    	height: 560,
     	autoCenter: Phaser.Scale.CENTER_BOTH
     },
     physics: {
