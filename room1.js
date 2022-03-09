@@ -14,21 +14,39 @@ export default class Room1 extends Phaser.Scene {
 
 
 //Stworzenie gracza na podstawie klasy z player.js
-this.player = new Player(this, 200, 150);
+
 		
 
 	const mapa = this.make.tilemap({key: 'mapa', tileWidth: 16, tileHeight: 16});
 	const tileset = mapa.addTilesetImage('obrazek', 'tiles');
 			//tworzenie warsty podlogi		
-		mapa.createLayer('podloga', tileset, 0, 0).setDepth(-1);
+	//	mapa.createLayer('podloga', tileset, 0, 0).setDepth(-1);
 
 
 			//tworzenie warsty scian
 		const warstwaScian = mapa.createLayer('sciany', tileset, 0, 0);
 
+		warstwaScian.setCollisionByProperty({ collides: true});
 
-		//nue działą   >:|
-		warstwaScian.setCollisionBetween(33,35);
+
+
+
+
+
+		/* odznacz to jeżeli chcesz zobaczyć kolizje  --- kolizje są pokazuje nawet ich kolor
+
+
+		const debugGraphics = this.add.graphics().setAlpha(0.7)
+		warstwaScian.renderDebug(debugGraphics,{
+			tileColor: null,
+			collidingTileColor: new Phaser.Display.Color(243, 234, 48, 225),
+			faceColor: new Phaser.Display.Color(40, 39, 37, 255)
+		})*/
+		
+		
+		
+
+		this.player = new Player(this, 200, 150);
 	}
 
 	update() {
