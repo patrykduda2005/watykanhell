@@ -15,12 +15,12 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
 		this.scene = scene;
+		this.breakingTime = 100; //in frames
+		this.maxVel = 300;
+		this.inaccuracy = 50;
 
 
-
-		this.jump();
-
-		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie Kao)
+		//uruchomienie update
 		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
 
 		this.updateInterval = scene.time.addEvent({
@@ -31,7 +31,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.jumpInterval = scene.time.addEvent({
-			delay: 3000,
+			delay: 1000,
 			loop: true,
 			callback: this.jump,
 			callbackScope: this
@@ -39,18 +39,24 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		this.stop();
+		this.breaking();
 	}
 
 	jump() {
-		this.scene.physics.moveTo(this, this.targetX, this.targetY, 300, 1000);
+		this.scene.physics.moveTo(this, this.targetX + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.targetY + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.maxVel);
+		this.targetX = this.scene.player.x;
+		this.targetY = this.scene.player.y;
 	}
 
-	stop() {
-		if (Phaser.Math.Distance.Between(this.x, this.y, this.targetX, this.targetY) < 4 && this.body.velocity != 0) {
-			this.body.reset(this.targetX, this.targetY);
-			this.targetX = this.scene.player.x;
-			this.targetY = this.scene.player.y;
-		}
+	breaking() {
+		let velocityReduction = this.maxVel / this.breakingTime;
+		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReduction;
+		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReduction;
+		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReduction;
+		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReduction;
+
+		if (this.body.velocity.x > -(velocityReduction) && this.body.velocity.x < velocityReduction) this.body.velocity.x = 0;
+		if (this.body.velocity.y > -(velocityReduction) && this.body.velocity.y < velocityReduction) this.body.velocity.y = 0;
+
 	}
 }

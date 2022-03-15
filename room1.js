@@ -1,4 +1,5 @@
 import Player from './player.js';
+import Kao from './kao.js';
 export default class Room1 extends Phaser.Scene {
 	constructor() {
 		super({key:"Room1"});
@@ -46,6 +47,11 @@ export default class Room1 extends Phaser.Scene {
 
 		//Stworzenie gracza na podstawie klasy z player.js
 		this.player = new Player(this, 250, 150);
+
+		this.kao = new Kao(this, 400, 100);
+		this.kao = new Kao(this, 500, 50);
+		this.kao = new Kao(this, 100, 250);
+		this.kao = new Kao(this, 50, 10);
 	}
 
 	update() {
