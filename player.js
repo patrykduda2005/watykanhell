@@ -27,6 +27,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		this.ableToAttack = true;
 		this.attackDamage = 1;
 		this.scene = scene;
+		
 
 		//uruchomienie update (UWAGA! w taki sposob this znaczy window, a nie player)
 		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
@@ -60,6 +61,7 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 		const maxVel = 200; //maksymalna prędkość
 		const breaking = 10; //w ile klatek się zatrzymuje
 		const accel = 5;	//w ile klatek się rozpędza
+
 
 
 

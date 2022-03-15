@@ -1,9 +1,6 @@
 //Potrzebne aby wiedziało czym jest scena Room1
 import Room1 from './room1.js';
  
-
-
-
 var config = {
     type: Phaser.AUTO,
     pixelArt: true,
@@ -17,7 +14,7 @@ var config = {
         default: 'arcade',
         arcade: {
             gravity: { y:0},
-            debug: true
+            debug: true,
         }
     },
     scene: [ Room1 ]
