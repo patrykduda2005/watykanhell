@@ -17,8 +17,14 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 		this.breakingTime = 100; //in frames
 		this.maxVel = 300;
-		this.inaccuracy = 50;
+		this.inaccuracy = 25;
+		this.damage = 5;
+		this.breaking = this.scene.time.addEvent();
 
+
+
+		//obrazenia
+		//this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
 
 		//uruchomienie update
 		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
@@ -31,32 +37,67 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.jumpInterval = scene.time.addEvent({
-			delay: 1000,
+			delay: 500,
 			loop: true,
 			callback: this.jump,
 			callbackScope: this
 		});
+
+		
 	}
 
 	update() {
-		this.breaking();
+		//this.breaking();
 	}
 
 	jump() {
 		this.scene.physics.moveTo(this, this.targetX + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.targetY + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.maxVel);
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
+
+		this.breaking.destroy();
+		this.break(1);
 	}
 
-	breaking() {
-		let velocityReduction = this.maxVel / this.breakingTime;
+	break(velocityReduction) {
+		
+		//let velocityReduction = this.maxVel / this.breakingTime;
 		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReduction;
 		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReduction;
 		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReduction;
 		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReduction;
 
-		if (this.body.velocity.x > -(velocityReduction) && this.body.velocity.x < velocityReduction) this.body.velocity.x = 0;
-		if (this.body.velocity.y > -(velocityReduction) && this.body.velocity.y < velocityReduction) this.body.velocity.y = 0;
+		if (this.body.velocity.x > -(velocityReduction) && this.body.velocity.x < velocityReduction) {
+			this.body.velocity.x = 0;
+			
+		}
+		if (this.body.velocity.y > -(velocityReduction) && this.body.velocity.y < velocityReduction) {
+			this.body.velocity.y = 0;
+			
+		}
+
+		if (this.body.velocity.x == 0 && this.body.velocity.y == 0) return;
+
+		this.breaking = this.scene.time.addEvent({
+			delay: 1000/this.scene.physics.world.fps,
+			callback: this.break,
+			callbackScope: this,
+			args: [velocityReduction * 1.07]
+		});
 
 	}
+
+	damage(kao, victim) {
+		victim.health -= kao.damage;
+	}
+
+	/*to-do list:
+		death function
+		uporzadkowac zmienne:
+			jumpDistance,
+			jumpInitialSpeed,
+			jumpBreaking,
+			update time
+
+	*/
 }
