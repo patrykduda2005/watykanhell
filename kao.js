@@ -19,7 +19,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.inaccuracy = 25;
 		this.damage = 5;
 		this.breaking = this.scene.time.addEvent();
-		this.jumpDelay = 2000;
+		this.jumpDelay = 2000; //w milisekundach
 
 
 
@@ -49,42 +49,51 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	jump() {
+		//zatrzymuje zatrzymywanie sie
 		this.breaking.destroy();
 		
-
+		//rzuca kangura do zapisanego x,y ale z lekkim przesunieciem
 		this.scene.physics.moveTo(this, this.targetX + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.targetY + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.maxVel);
+
+		//zapisuje koordynaty gracza
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
 
+
+		//uruchamia siebie ponownie za this.jumpDelay milisekund
 		this.jumpInterval = this.scene.time.addEvent({
 			delay: this.jumpDelay,
 			callback: this.jump,
 			callbackScope: this
 		});
 
+		//uruchamia zatrzymywanie sie
 		this.break(1);
 
 	}
 
 	break(velocityReduction) {
 		
-		//let velocityReduction = this.maxVel / this.breakingTime;
+		//odejmuje od velocity velocityReduction
 		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReduction;
 		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReduction;
 		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReduction;
 		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReduction;
 
+
+		//zeruje zamiast ostatniego odejmowania
 		if (this.body.velocity.x > -(velocityReduction) && this.body.velocity.x < velocityReduction) {
-			this.body.velocity.x = 0;
-			
+			this.body.velocity.x = 0;	
 		}
 		if (this.body.velocity.y > -(velocityReduction) && this.body.velocity.y < velocityReduction) {
 			this.body.velocity.y = 0;
-			
 		}
 
+		//jesli kangur sie zatrzymal to przerwac zatrzymywanie
 		if (this.body.velocity.x == 0 && this.body.velocity.y == 0) return;
 
+
+		//uruchamia samego siebie z innym odejmnikiem
 		this.breaking = this.scene.time.addEvent({
 			delay: 1000/this.scene.physics.world.fps,
 			callback: this.break,
