@@ -15,16 +15,16 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
 		this.scene = scene;
-		this.breakingTime = 100; //in frames
 		this.maxVel = 300;
 		this.inaccuracy = 25;
 		this.damage = 5;
 		this.breaking = this.scene.time.addEvent();
+		this.jumpDelay = 2000;
 
 
 
 		//obrazenia
-		//this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
+		this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
 
 		//uruchomienie update
 		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
@@ -37,8 +37,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		this.jumpInterval = scene.time.addEvent({
-			delay: 500,
-			loop: true,
+			delay: this.jumpDelay,
 			callback: this.jump,
 			callbackScope: this
 		});
@@ -47,16 +46,24 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		//this.breaking();
 	}
 
 	jump() {
+		this.breaking.destroy();
+		
+
 		this.scene.physics.moveTo(this, this.targetX + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.targetY + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.maxVel);
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
 
-		this.breaking.destroy();
+		this.jumpInterval = this.scene.time.addEvent({
+			delay: this.jumpDelay,
+			callback: this.jump,
+			callbackScope: this
+		});
+
 		this.break(1);
+
 	}
 
 	break(velocityReduction) {
@@ -91,13 +98,16 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		victim.health -= kao.damage;
 	}
 
+	death() {
+		this.breaking.destroy();
+		this.jumpInterval.destroy();
+		this.updateInterval.destroy();
+		this.body.destroy();
+		this.destroy();
+	}
+
 	/*to-do list:
-		death function
-		uporzadkowac zmienne:
-			jumpDistance,
-			jumpInitialSpeed,
-			jumpBreaking,
-			update time
+		damage function
 
 	*/
 }
