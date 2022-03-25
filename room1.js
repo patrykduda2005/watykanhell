@@ -42,7 +42,7 @@ export default class Room1 extends Phaser.Scene {
 		warstwaScian.setCollisionByProperty({ collides: true })
 		this.physics.add.collider(this.player, warstwaScian)
 		this.physics.add.collider(this.player, mag)
-		this.physics.add.collider(this.player, this.kao)
+		this.physics.add.collider(this.kao, warstwaScian)
 		this.physics.add.collider(mag, warstwaScian)
 
 		
