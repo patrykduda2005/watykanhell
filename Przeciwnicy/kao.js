@@ -15,6 +15,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
 		this.scene = scene;
+
 		this.maxVel = 300;
 		this.inaccuracy = 25;
 		this.damage = 5;
@@ -119,4 +120,5 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		damage function
 
 	*/
+
 }

@@ -1,5 +1,7 @@
 import Player from './player.js';
-import Kao from './kao.js';
+
+//import Mag from  './Przeciwnicy/mag.js';
+
 export default class Room1 extends Phaser.Scene {
 	constructor() {
 		super({key:"Room1"});
@@ -7,54 +9,53 @@ export default class Room1 extends Phaser.Scene {
 
 	preload() {
 		this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
-		this.load.image('tiles', 'tiles/Textures/Objects/Floor.png');
-		this.load.tilemapTiledJSON('mapa', 'tiles/MapaTestowa.json');
+		this.load.image('mag', 'tiles/Tekstury/frames/mag.png');
+		this.load.image('tiles', 'tiles/Tekstury/obrazek.png');
+		this.load.tilemapTiledJSON('mapa', 'tiles/mapa01.json');
 	}
 
 	create() {
 
 
-		const map = this.make.tilemap({key: 'mapa'})
-
-		//zmienna tworząca podlogę
-		const podloga = map.addTilesetImage('Floor', 'tiles')
-
-		//zmienna tworząca ściany
-		const sciana = map.addTilesetImage('Wall', 'tiles')
-
-		//tworzenie podłogi
-		map.createLayer('podloga', podloga)
-
-		//tworzenie ścian
-		map.createLayer('sciana', sciana)
+//Stworzenie gracza na podstawie klasy z player.js
+	this.player = new Player(this, 200, 150).setDepth(-5);
+	const mag = this.physics.add.sprite(200, 250, 'mag', 'tiles/Tekstury/frames/mag.png').setDepth(-5);
 
 
+	const mapa = this.make.tilemap({key: 'mapa', tileWidth: 16, tileHeight: 16});
+	const tileset = mapa.addTilesetImage('obrazek', 'tiles');
 
-		/*wszystko poniżej to próba ustawienia kolizji - nieskuteczna
+	
+	
+			//tworzenie warsty podlogi		
+		mapa.createLayer('podloga', tileset, 0, 0).setDepth(-10);
 		
-		walls.setCollisionByProperty({collides: true})
+		 //tworzenie filarów
+		mapa.createLayer('filary', tileset, 0,0).setDepth(-4);
 
-		const kolizje = this.add.graphics().setAlpha(0.7)
-		walls.renderDebug(debugGraphics, {
-			titleColor: null,
-			collidingTileColor: new Phase.Display.Color(243,234,48),
-			faceColor: new Phaser.Display.Color(40,39,37,255),
+			//tworzenie warstwy scian
+		const warstwaScian = mapa.createLayer('sciany', tileset, 0, 0).setDepth(0);
+		
+
+		 //kolizje 
+		warstwaScian.setCollisionByProperty({ collides: true })
+		this.physics.add.collider(this.player, warstwaScian)
+		this.physics.add.collider(this.player, mag)
+		this.physics.add.collider(mag, warstwaScian)
+
+
+
+			//kolor kolizji 'w razie potrzeby odkomentarzować'
+	/*	const debugGraphics = this.add.graphics().setAlpha(0.7)
+		warstwaScian.renderDebug(debugGraphics,{
+			tileColor: null,
+			collidingTileColor: new Phaser.Display.Color(243, 234, 48, 225),
+			faceColor: new Phaser.Display.Color(40, 39, 37, 255),
 		})*/
 
-
-
-		
-
-		//Stworzenie gracza na podstawie klasy z player.js
-		this.player = new Player(this, 250, 150);
-
-		new Kao(this, 400, 100);
-		new Kao(this, 500, 50);
-		new Kao(this, 100, 250);
-		new Kao(this, 50, 10);
 	}
 
 	update() {
-		
+
+    }
 	}
-}

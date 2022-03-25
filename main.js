@@ -1,23 +1,20 @@
 //Potrzebne aby wiedziało czym jest scena Room1
 import Room1 from './room1.js';
  
-
-
-
 var config = {
     type: Phaser.AUTO,
     pixelArt: true,
     scale: {
     	mode: Phaser.Scale.FIT,
-    	width: 820,
-    	height: 580,
+    	width: 720,
+    	height: 560,
     	autoCenter: Phaser.Scale.CENTER_BOTH
     },
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y:0},
-            debug: true
+            debug: true,
         }
     },
     scene: [ Room1 ]
