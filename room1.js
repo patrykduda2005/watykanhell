@@ -1,5 +1,5 @@
 import Player from './player.js';
-
+import Kao from './Przeciwnicy/kao.js';
 //import Mag from  './Przeciwnicy/mag.js';
 
 export default class Room1 extends Phaser.Scene {
@@ -19,6 +19,7 @@ export default class Room1 extends Phaser.Scene {
 
 //Stworzenie gracza na podstawie klasy z player.js
 	this.player = new Player(this, 200, 150).setDepth(-5);
+	this.kao = new Kao(this, 10, 10);
 	const mag = this.physics.add.sprite(200, 250, 'mag', 'tiles/Tekstury/frames/mag.png').setDepth(-5);
 
 
@@ -41,9 +42,10 @@ export default class Room1 extends Phaser.Scene {
 		warstwaScian.setCollisionByProperty({ collides: true })
 		this.physics.add.collider(this.player, warstwaScian)
 		this.physics.add.collider(this.player, mag)
+		this.physics.add.collider(this.player, this.kao)
 		this.physics.add.collider(mag, warstwaScian)
 
-
+		
 
 			//kolor kolizji 'w razie potrzeby odkomentarzować'
 	/*	const debugGraphics = this.add.graphics().setAlpha(0.7)
