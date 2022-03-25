@@ -1,5 +1,7 @@
 import Player from './player.js';
+
 //import Mag from  './Przeciwnicy/mag.js';
+
 export default class Room1 extends Phaser.Scene {
 	constructor() {
 		super({key:"Room1"});
@@ -42,6 +44,7 @@ export default class Room1 extends Phaser.Scene {
 		this.physics.add.collider(mag, warstwaScian)
 
 
+
 			//kolor kolizji 'w razie potrzeby odkomentarzować'
 	/*	const debugGraphics = this.add.graphics().setAlpha(0.7)
 		warstwaScian.renderDebug(debugGraphics,{
@@ -49,6 +52,7 @@ export default class Room1 extends Phaser.Scene {
 			collidingTileColor: new Phaser.Display.Color(243, 234, 48, 225),
 			faceColor: new Phaser.Display.Color(40, 39, 37, 255),
 		})*/
+
 	}
 
 	update() {
