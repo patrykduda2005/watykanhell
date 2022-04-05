@@ -20,6 +20,9 @@ export default class Room1 extends Phaser.Scene {
 //Stworzenie gracza na podstawie klasy z player.js
 	this.player = new Player(this, 200, 150).setDepth(-5);
 	this.kao = new Kao(this, 10, 10);
+	new Kao(this, 600, 100);
+	new Kao(this, 100, 500);
+	new Kao(this, 300, 400);
 	const mag = this.physics.add.sprite(200, 250, 'mag', 'tiles/Tekstury/frames/mag.png').setDepth(-5);
 
 
@@ -39,11 +42,11 @@ export default class Room1 extends Phaser.Scene {
 		
 
 		 //kolizje 
-		warstwaScian.setCollisionByProperty({ collides: true })
+		/*warstwaScian.setCollisionByProperty({ collides: true })
 		this.physics.add.collider(this.player, warstwaScian)
 		this.physics.add.collider(this.player, mag)
 		this.physics.add.collider(this.kao, warstwaScian)
-		this.physics.add.collider(mag, warstwaScian)
+		this.physics.add.collider(mag, warstwaScian)*/
 
 		
 

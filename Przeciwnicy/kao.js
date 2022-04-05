@@ -17,15 +17,17 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 
 		this.maxVel = 300;
-		this.inaccuracy = 25;
+		this.inaccuracy = 0;
 		this.damage = 5;
 		this.breaking = this.scene.time.addEvent();
 		this.jumpDelay = 2000; //w milisekundach
+		this.distanceX = 1;
+		this.distanceY = 1;
 
 
 
 		//obrazenia
-		this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
+		//this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
 
 		//uruchomienie update
 		//this.updateInterval = setInterval(this.update, 1000/scene.physics.world.fps, this);
@@ -47,11 +49,17 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
+		
+		
 	}
 
 	jump() {
 		//zatrzymuje zatrzymywanie sie
 		this.breaking.destroy();
+
+		console.log('skok');
+		this.distanceX = Phaser.Math.Difference(this.x, this.scene.player.x);
+		this.distanceY = Phaser.Math.Difference(this.y, this.scene.player.y);
 		
 		//rzuca kangura do zapisanego x,y ale z lekkim przesunieciem
 		this.scene.physics.moveTo(this, this.targetX + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.targetY + Phaser.Math.RND.between(-this.inaccuracy, this.inaccuracy), this.maxVel);
@@ -59,6 +67,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		//zapisuje koordynaty gracza
 		this.targetX = this.scene.player.x;
 		this.targetY = this.scene.player.y;
+		this.maxVel = Math.sqrt(Math.pow(this.distanceX, 2) + Math.pow(this.distanceY, 2));
 
 
 		//uruchamia siebie ponownie za this.jumpDelay milisekund
@@ -69,24 +78,24 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		});
 
 		//uruchamia zatrzymywanie sie
-		this.break(1);
+		this.break((500/this.distanceX), (500/this.distanceY)); //Im wieksza wartosc tym wczesniej zatrzymywanie
 
 	}
 
-	break(velocityReduction) {
+	break(velocityReductionX, velocityReductionY) {
 		
 		//odejmuje od velocity velocityReduction
-		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReduction;
-		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReduction;
-		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReduction;
-		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReduction;
+		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReductionX;
+		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReductionX;
+		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReductionY;
+		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReductionY;
 
 
 		//zeruje zamiast ostatniego odejmowania
-		if (this.body.velocity.x > -(velocityReduction) && this.body.velocity.x < velocityReduction) {
+		if (this.body.velocity.x > -(velocityReductionX) && this.body.velocity.x < velocityReductionX) {
 			this.body.velocity.x = 0;	
 		}
-		if (this.body.velocity.y > -(velocityReduction) && this.body.velocity.y < velocityReduction) {
+		if (this.body.velocity.y > -(velocityReductionY) && this.body.velocity.y < velocityReductionY) {
 			this.body.velocity.y = 0;
 		}
 
@@ -99,7 +108,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 			delay: 1000/this.scene.physics.world.fps,
 			callback: this.break,
 			callbackScope: this,
-			args: [velocityReduction * 1.07]
+			args: [velocityReductionX * (1+(10/this.distanceX)), velocityReductionY * (1+(10/this.distanceY))]
 		});
 
 	}
