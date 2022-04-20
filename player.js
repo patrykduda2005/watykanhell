@@ -106,25 +106,69 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 	fire() {
 		if (this.cursors.up.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y - 10, 300, 400, this, this.attackDamage);
+			new Bullet({
+				scene: this.scene,
+			 	x: this.x,
+			 	y: this.y,
+			 	key: 'dude',
+			 	dirX: this.x,
+			 	dirY: this.y - 10,
+			 	speed: 300,
+			 	distance: 400,
+			 	host: this,
+			 	damage: this.attackDamage
+			 });
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.down.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x, this.y + 10, 300, 400, this, this.attackDamage);
+			new Bullet({
+				scene: this.scene,
+				x: this.x,
+				y: this.y,
+				key: 'dude',
+				dirX: this.x,
+				dirY: this.y + 10,
+				speed: 300,
+				distance: 400,
+				host: this,
+				damage: this.attackDamage
+			});
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.left.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x-10, this.y, 300, 400, this, this.attackDamage);
+			new Bullet({
+				scene: this.scene,
+				x: this.x,
+				y: this.y,
+				key: 'dude',
+				dirX: this.x - 10,
+				dirY: this.y,
+				speed: 300,
+				distance: 400,
+				host: this,
+				damage: this.attackDamage
+			});
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
 		} else if (this.cursors.right.isDown) {
 			this.ableToAttack = false;
-			new Bullet(this.scene, this.x, this.y, 'dude', this.x+10, this.y, 300, 400, this, this.attackDamage);
+			new Bullet({
+				scene: this.scene,
+				x: this.x,
+				y: this.y,
+				key: 'dude',
+				dirX: this.x + 10,
+				dirY: this.y,
+				speed: 300,
+				distance: 400,
+				host: this,
+				damage: this.attackDamage
+			});
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
