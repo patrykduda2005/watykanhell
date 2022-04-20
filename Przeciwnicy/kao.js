@@ -57,7 +57,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		//zatrzymuje zatrzymywanie sie
 		this.breaking.destroy();
 
-		console.log('skok');
+		//console.log('skok');
 		this.distanceX = Phaser.Math.Difference(this.x, this.scene.player.x);
 		this.distanceY = Phaser.Math.Difference(this.y, this.scene.player.y);
 		
