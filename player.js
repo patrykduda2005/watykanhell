@@ -108,11 +108,9 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.ableToAttack = false;
 			new Bullet({
 				scene: this.scene,
-			 	x: this.x,
-			 	y: this.y,
-			 	key: 'dude',
-			 	dirX: this.x,
-			 	dirY: this.y - 10,
+			 	coords: [this.x, this.y],
+			 	key: 'bullet',
+			 	destination: [this.x, this.y - 10],
 			 	speed: 300,
 			 	distance: 400,
 			 	host: this,
@@ -125,16 +123,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.ableToAttack = false;
 			new Bullet({
 				scene: this.scene,
-				x: this.x,
-				y: this.y,
-				key: 'dude',
-				dirX: this.x,
-				dirY: this.y + 10,
-				speed: 300,
-				distance: 400,
-				host: this,
-				damage: this.attackDamage
-			});
+			 	coords: [this.x, this.y],
+			 	key: 'bullet',
+			 	destination: [this.x, this.y + 10],
+			 	speed: 300,
+			 	distance: 400,
+			 	host: this,
+			 	damage: this.attackDamage
+			 });
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
@@ -142,16 +138,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.ableToAttack = false;
 			new Bullet({
 				scene: this.scene,
-				x: this.x,
-				y: this.y,
-				key: 'dude',
-				dirX: this.x - 10,
-				dirY: this.y,
-				speed: 300,
-				distance: 400,
-				host: this,
-				damage: this.attackDamage
-			});
+			 	coords: [this.x, this.y],
+			 	key: 'bullet',
+			 	destination: [this.x - 10, this.y],
+			 	speed: 300,
+			 	distance: 400,
+			 	host: this,
+			 	damage: this.attackDamage
+			 });
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);
@@ -159,16 +153,14 @@ export default class Player extends Phaser.Physics.Arcade.Sprite {
 			this.ableToAttack = false;
 			new Bullet({
 				scene: this.scene,
-				x: this.x,
-				y: this.y,
-				key: 'dude',
-				dirX: this.x + 10,
-				dirY: this.y,
-				speed: 300,
-				distance: 400,
-				host: this,
-				damage: this.attackDamage
-			});
+			 	coords: [this.x, this.y],
+			 	key: 'bullet',
+			 	destination: [this.x + 10, this.y],
+			 	speed: 300,
+			 	distance: 400,
+			 	host: this,
+			 	damage: this.attackDamage
+			 });
 			setTimeout(function(player) {
 				player.ableToAttack = true;
 			}, this.attackCD, this);

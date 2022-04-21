@@ -1,8 +1,23 @@
 export default class Bullet extends Phaser.Physics.Arcade.Sprite {
-	constructor(/*scene, x, y, key = 'dude', dirX, dirY, speed = 100, dis=400, host, damage = 1*/config) {
+	constructor(config) {
 		
+		/*
+		przyklad przywolania bulletu:
+		new Bullet({
+			scene: this.scene,					//scena na ktorej pojawi sie bullet
+			coords: [300, 20],					//miejsce pojawienia sie bulleta (x,y)
+			key: 'dude',						//tekstura
+			destination: [10, 10],              //kordynaty w ktorym kierunku bullet poleci (x,y)
+			speed: 100,							//z jaka predkoscia leci
+			distance: 400,						//po jakim dystansie zniknie
+			host: this,							//kto wypuszcza tego bulleta
+			damage: 1							//jakie obrazenia zada
+		});
 
-		super(config.scene, config.x, config.y, config.key);
+		*/
+
+		
+		super(config.scene, config.coords[0], config.coords[1], config.key);
 
 		//dodanie bulleta do sceny
 		config.scene.physics.add.existing(this);
@@ -17,12 +32,12 @@ export default class Bullet extends Phaser.Physics.Arcade.Sprite {
 
 		//Informacje potrzebne do strzału bulletu
 		this.fireInfo = {
-			originX: config.x,
-			originY: config.y,
-			destinationX: config.dirX,
-			destinationY: config.dirY,
+			originX: config.coords[0],
+			originY: config.coords[1],
+			destinationX: config.destination[0],
+			destinationY: config.destination[1],
 			speed: config.speed,
-			distance: config.dis
+			distance: config.distance
 		}
 		
 		//staty bulleta
