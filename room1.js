@@ -12,6 +12,8 @@ export default class Room1 extends Phaser.Scene {
 		this.load.image('mag', 'tiles/Tekstury/frames/mag.png');
 		this.load.image('tiles', 'tiles/Tekstury/obrazek.png');
 		this.load.tilemapTiledJSON('mapa', 'tiles/mapa01.json');
+		this.load.image('bullet', 'assets/bullet.png');
+		this.load.image('kao', 'assets/kao.png')
 	}
 
 	create() {

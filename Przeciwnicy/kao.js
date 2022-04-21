@@ -1,5 +1,5 @@
 export default class Kao extends Phaser.Physics.Arcade.Sprite {
-	constructor (scene, x, y, key = 'dude') {
+	constructor (scene, x, y, key = 'kao') {
 		super(scene, x, y, key);
 
 		//dodanie playera do sceny
@@ -17,7 +17,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.scene = scene;
 
 		this.maxVel = 300;
-		this.inaccuracy = 0;
+		this.inaccuracy = 25;
 		this.damage = 5;
 		this.breaking = this.scene.time.addEvent();
 		this.jumpDelay = 2000; //w milisekundach
