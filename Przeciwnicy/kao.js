@@ -10,6 +10,8 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		scene.physics.world.setBounds(0,0,820,580);
 		this.setCollideWorldBounds(true);
 
+
+
 		//staty
 		this.health = 20;
 		this.targetX = this.scene.player.x;
@@ -24,7 +26,8 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.distanceX = 1;
 		this.distanceY = 1;
 
-
+		this.body.bounce = 0.1;	
+		console.log(this);	
 
 		//obrazenia
 		//this.scene.physics.overlap(this, this.scene.player, this.damage, null, this);
@@ -49,7 +52,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		
+
 		
 	}
 
@@ -83,14 +86,6 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	break(velocityReductionX, velocityReductionY) {
-		
-		//odejmuje od velocity velocityReduction
-		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReductionX;
-		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReductionX;
-		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReductionY;
-		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReductionY;
-
-
 		//zeruje zamiast ostatniego odejmowania
 		if (this.body.velocity.x > -(velocityReductionX) && this.body.velocity.x < velocityReductionX) {
 			this.body.velocity.x = 0;	
@@ -98,6 +93,13 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		if (this.body.velocity.y > -(velocityReductionY) && this.body.velocity.y < velocityReductionY) {
 			this.body.velocity.y = 0;
 		}
+		
+		//odejmuje od velocity velocityReduction
+		if (this.body.velocity.x > 0) this.body.velocity.x -= velocityReductionX;
+		if (this.body.velocity.x < 0) this.body.velocity.x += velocityReductionX;
+		if (this.body.velocity.y > 0) this.body.velocity.y -= velocityReductionY;
+		if (this.body.velocity.y < 0) this.body.velocity.y += velocityReductionY;
+
 
 		//jesli kangur sie zatrzymal to przerwac zatrzymywanie
 		if (this.body.velocity.x == 0 && this.body.velocity.y == 0) return;
