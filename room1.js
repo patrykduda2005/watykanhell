@@ -22,10 +22,15 @@ export default class Room1 extends Phaser.Scene {
 //Stworzenie gracza na podstawie klasy z player.js
 	this.player = new Player(this, 200, 150).setDepth(-5);
 	this.kao = this.physics.add.group();
-	this.kao.add(new Kao(this, 30, 50));
-	this.kao.add(new Kao(this, 600, 100));
-	this.kao.add(new Kao(this, 100, 500));
-	this.kao.add(new Kao(this, 300, 400));
+	this.kao.add(new Kao({
+		scene: this,
+		x: 30,
+		y: 50
+	}));
+	//this.kao.add(new Kao(this, 600, 100));
+	//this.kao.add(new Kao(this, 100, 500));
+	//this.kao.add(new Kao(this, 300, 400));
+	//this.kao = new Kao(this, 600, 100);
 	const mag = this.physics.add.sprite(200, 250, 'mag', 'tiles/Tekstury/frames/mag.png').setDepth(-5);
 
 
@@ -60,9 +65,10 @@ export default class Room1 extends Phaser.Scene {
 			faceColor: new Phaser.Display.Color(40, 39, 37, 255),
 		})
 
+		//this.cameras.main.startFollow(this.kao);
 	}
 
 	update() {
-
+		//console.log(this.kao.x);
     }
 	}
