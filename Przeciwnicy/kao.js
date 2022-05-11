@@ -25,6 +25,8 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		this.distanceToTravel = 0;
 		this.distanceTravelledSinceJump = 0;
 
+		this.body.bounce.x = 1;
+		this.body.bounce.y = 1;
 
 
 		//staty
@@ -49,9 +51,8 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 	}
 
 	update() {
-		 
 		 this.distanceTravelledSinceJump += this.distanceRecentlyTravelled();
-		 if (this.distanceTravelledSinceJump >= this.distanceToTravel && !this.isBreaking) this.break(20);
+		 if (this.distanceTravelledSinceJump >= this.distanceToTravel && !this.isBreaking) this.break(10);
 		
 	}
 
@@ -70,7 +71,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 		let velocity = 300;
 		let targetCoords = [this.target.x + Phaser.Math.RND.between(-jumpInaccuracy, jumpInaccuracy), this.target.y + Phaser.Math.RND.between(-jumpInaccuracy, jumpInaccuracy)];
 
-		let distanceToBreakBeforePoint = 25
+		let distanceToBreakBeforePoint = 100;
 		let distanceToTarget = Phaser.Math.Distance.Between(this.x, this.y, targetCoords[0], targetCoords[1]);
 		this.distanceToTravel = distanceToTarget - distanceToBreakBeforePoint;
 
@@ -122,6 +123,10 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 			callbackScope: this,
 			args: [velocityReduction]
 		});
+	}
+
+	bounce() {
+
 	}
 
 	/*to-do list:
