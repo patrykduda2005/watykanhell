@@ -65,7 +65,7 @@ export default class Kao extends Phaser.Physics.Arcade.Sprite {
 
 	jump() {
 		this.breaking.destroy();
-
+		this.isBreaking = false;
 
 		let jumpInaccuracy = 5;
 		let velocity = 300;
