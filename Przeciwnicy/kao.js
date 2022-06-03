@@ -1,18 +1,20 @@
-export default class Kao extends Phaser.Physics.Arcade.Sprite {
+export default class Kao extends Phaser.GameObjects.Container {
 	constructor (config) {
 
 		if (config.key == null) config.key = 'kao';
 		if (config.target == null) config.target = config.scene.player;
 
-		super(config.scene, config.x, config.y, config.key);
+		super(config.scene, config.x, config.y, config.scene.add.sprite(0, 0, 'kao'));
+		this.setSize(40,50);
 
 		//dodanie playera do sceny
 		config.scene.physics.add.existing(this);
 		config.scene.add.existing(this);
+		
 
 		//Żeby nie wypadł poza świat
 		config.scene.physics.world.setBounds(0,0,820,580);
-		this.setCollideWorldBounds(true);
+		this.body.setCollideWorldBounds(true);
 
 		this.scene = config.scene;
 
